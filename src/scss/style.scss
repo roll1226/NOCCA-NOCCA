@@ -1,0 +1,17 @@
+@import "./block/block";
+@import "./sheet/sheet";
+
+div {
+  transform-style: preserve-3d;
+  user-select: none;
+}
+
+body {
+  overflow: hidden;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
