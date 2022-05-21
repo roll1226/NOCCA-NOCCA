@@ -1,3 +1,4 @@
+import arrowStyle, { BLOCK, NONE } from "./_arrowStyle";
 import control from "./_control";
 import level, { ONE, TWE } from "./_level";
 
@@ -10,12 +11,18 @@ const BACK_LEFT = "back__left";
 const LEFT = "left";
 const FRONT_LEFT = "front__left";
 
+const WHITE = "white";
+const BLACK = "black";
+const MOVE_PLAYER = WHITE;
+
 let levelOne = level.one();
 let levelTwe = level.twe();
 let levelThree = level.three();
 
 document.querySelectorAll(".block__white").forEach((e) => {
   e.addEventListener("click", () => {
+    if (MOVE_PLAYER !== WHITE) return;
+
     document.querySelectorAll(".arrow").forEach((arrowStyle) => {
       arrowStyle.style.display = "none";
     });
@@ -31,101 +38,147 @@ document.querySelectorAll(".block__white").forEach((e) => {
         ? levelThree.indexOf(e.id)
         : levelIndex;
 
+      const nowLevel = level.nowLevel(levelOne, levelTwe, levelThree, e.id);
+
+      if (nowLevel === ONE && levelTwe[levelIndex] !== "") {
+        arrowStyle.style(arrows, [
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+        ]);
+        return;
+      }
+
+      if (nowLevel === TWE && levelThree[levelIndex] !== "") {
+        arrowStyle.style(arrows, [
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+        ]);
+        return;
+      }
+
       switch (levelIndex) {
         case 0:
-          arrows[0].style.display = "block";
-          arrows[1].style.display = "block";
-          arrows[2].style.display = "block";
-          arrows[3].style.display = "none";
-          arrows[4].style.display = "none";
-          arrows[5].style.display = "none";
-          arrows[6].style.display = "none";
-          arrows[7].style.display = "none";
+          arrowStyle.style(arrows, [
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            NONE,
+            NONE,
+            NONE,
+            NONE,
+            NONE,
+          ]);
           break;
 
         case 1:
         case 2:
         case 3:
-          arrows[0].style.display = "block";
-          arrows[1].style.display = "block";
-          arrows[2].style.display = "block";
-          arrows[3].style.display = "none";
-          arrows[4].style.display = "none";
-          arrows[5].style.display = "none";
-          arrows[6].style.display = "block";
-          arrows[7].style.display = "block";
+          arrowStyle.style(arrows, [
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            NONE,
+            NONE,
+            NONE,
+            BLOCK,
+            BLOCK,
+          ]);
           break;
 
         case 4:
-          arrows[0].style.display = "block";
-          arrows[1].style.display = "none";
-          arrows[2].style.display = "none";
-          arrows[3].style.display = "none";
-          arrows[4].style.display = "none";
-          arrows[5].style.display = "none";
-          arrows[6].style.display = "block";
-          arrows[7].style.display = "block";
+          arrowStyle.style(arrows, [
+            BLOCK,
+            NONE,
+            NONE,
+            NONE,
+            NONE,
+            NONE,
+            BLOCK,
+            BLOCK,
+          ]);
           break;
 
         case 5:
         case 10:
         case 15:
         case 20:
-          arrows[0].style.display = "block";
-          arrows[1].style.display = "block";
-          arrows[2].style.display = "block";
-          arrows[3].style.display = "block";
-          arrows[4].style.display = "block";
-          arrows[5].style.display = "none";
-          arrows[6].style.display = "none";
-          arrows[7].style.display = "none";
+          arrowStyle.style(arrows, [
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            NONE,
+            NONE,
+            NONE,
+          ]);
           break;
 
         case 9:
         case 14:
         case 19:
         case 24:
-          arrows[0].style.display = "block";
-          arrows[1].style.display = "none";
-          arrows[2].style.display = "none";
-          arrows[3].style.display = "none";
-          arrows[4].style.display = "block";
-          arrows[5].style.display = "block";
-          arrows[6].style.display = "block";
-          arrows[7].style.display = "block";
+          arrowStyle.style(arrows, [
+            BLOCK,
+            NONE,
+            NONE,
+            NONE,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+          ]);
           break;
 
         case 25:
-          arrows[0].style.display = "block";
-          arrows[1].style.display = "block";
-          arrows[2].style.display = "block";
-          arrows[3].style.display = "block";
-          arrows[4].style.display = "block";
-          arrows[5].style.display = "none";
-          arrows[6].style.display = "none";
-          arrows[7].style.display = "none";
+          arrowStyle.style(arrows, [
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            NONE,
+            NONE,
+            NONE,
+          ]);
           break;
 
         case 29:
-          arrows[0].style.display = "block";
-          arrows[1].style.display = "none";
-          arrows[2].style.display = "none";
-          arrows[3].style.display = "none";
-          arrows[4].style.display = "block";
-          arrows[5].style.display = "block";
-          arrows[6].style.display = "block";
-          arrows[7].style.display = "block";
+          arrowStyle.style(arrows, [
+            BLOCK,
+            NONE,
+            NONE,
+            NONE,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+          ]);
           break;
 
         default:
-          arrows[0].style.display = "block";
-          arrows[1].style.display = "block";
-          arrows[2].style.display = "block";
-          arrows[3].style.display = "block";
-          arrows[4].style.display = "block";
-          arrows[5].style.display = "block";
-          arrows[6].style.display = "block";
-          arrows[7].style.display = "block";
+          arrowStyle.style(arrows, [
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+          ]);
           break;
       }
     });
@@ -160,7 +213,6 @@ for (let index = 1; index <= 5; index++) {
           !~arrowClass.indexOf(FRONT_RIGHT) &&
           !~arrowClass.indexOf(FRONT_LEFT)
         ) {
-          console.log("FRONT");
           const front = control.front(
             levelOne,
             levelTwe,
@@ -176,7 +228,6 @@ for (let index = 1; index <= 5; index++) {
 
         // FRONT RIGHT
         if (~arrowClass.indexOf(FRONT_RIGHT)) {
-          console.log("FRONT RIGHT");
           const frontRight = control.frontRight(
             levelOne,
             levelTwe,
@@ -209,7 +260,6 @@ for (let index = 1; index <= 5; index++) {
         }
         // BACK RIGHT
         if (~arrowClass.indexOf(BACK_RIGHT)) {
-          console.log("BACK_RIGHT");
           const backRight = control.backRight(
             levelOne,
             levelTwe,
@@ -228,7 +278,6 @@ for (let index = 1; index <= 5; index++) {
           !~arrowClass.indexOf(BACK_RIGHT) &&
           !~arrowClass.indexOf(BACK_LEFT)
         ) {
-          console.log("BACK");
           const back = control.back(
             levelOne,
             levelTwe,
@@ -243,7 +292,6 @@ for (let index = 1; index <= 5; index++) {
         }
         // BACK LEFT
         if (~arrowClass.indexOf(BACK_LEFT)) {
-          console.log("BACK_LEFT");
           const backLeft = control.backLeft(
             levelOne,
             levelTwe,
@@ -262,7 +310,6 @@ for (let index = 1; index <= 5; index++) {
           !~arrowClass.indexOf(FRONT_LEFT) &&
           !~arrowClass.indexOf(BACK_LEFT)
         ) {
-          console.log("LEFT");
           const left = control.left(
             levelOne,
             levelTwe,
@@ -277,7 +324,6 @@ for (let index = 1; index <= 5; index++) {
         }
         // FRONT LEFT
         if (~arrowClass.indexOf(FRONT_LEFT)) {
-          console.log("FRONT_LEFT");
           const frontLeft = control.frontLeft(
             levelOne,
             levelTwe,
@@ -290,14 +336,13 @@ for (let index = 1; index <= 5; index++) {
           levelTwe = frontLeft[1];
           levelThree = frontLeft[2];
         }
-
-        console.log(levelOne, levelTwe, levelThree);
       });
     });
 }
 
 document.querySelectorAll(".block__black").forEach((e) => {
   e.addEventListener("click", () => {
+    if (MOVE_PLAYER !== BLACK) return;
     document.querySelectorAll(".arrow").forEach((arrowStyle) => {
       arrowStyle.style.display = "none";
     });
@@ -316,124 +361,144 @@ document.querySelectorAll(".block__black").forEach((e) => {
       const nowLevel = level.nowLevel(levelOne, levelTwe, levelThree, e.id);
 
       if (nowLevel === ONE && levelTwe[levelIndex] !== "") {
-        arrows[0].style.display = "none";
-        arrows[1].style.display = "none";
-        arrows[2].style.display = "none";
-        arrows[3].style.display = "none";
-        arrows[4].style.display = "none";
-        arrows[5].style.display = "none";
-        arrows[6].style.display = "none";
-        arrows[7].style.display = "none";
+        arrowStyle.style(arrows, [
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+        ]);
         return;
       }
 
       if (nowLevel === TWE && levelThree[levelIndex] !== "") {
-        arrows[0].style.display = "none";
-        arrows[1].style.display = "none";
-        arrows[2].style.display = "none";
-        arrows[3].style.display = "none";
-        arrows[4].style.display = "none";
-        arrows[5].style.display = "none";
-        arrows[6].style.display = "none";
-        arrows[7].style.display = "none";
+        arrowStyle.style(arrows, [
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+          NONE,
+        ]);
         return;
       }
 
       switch (levelIndex) {
         case 29:
-          arrows[0].style.display = "none";
-          arrows[1].style.display = "none";
-          arrows[2].style.display = "none";
-          arrows[3].style.display = "none";
-          arrows[4].style.display = "block";
-          arrows[5].style.display = "block";
-          arrows[6].style.display = "block";
-          arrows[7].style.display = "none";
+          arrowStyle.style(arrows, [
+            NONE,
+            NONE,
+            NONE,
+            NONE,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            NONE,
+          ]);
           break;
 
         case 28:
         case 27:
         case 26:
-          arrows[0].style.display = "none";
-          arrows[1].style.display = "none";
-          arrows[2].style.display = "block";
-          arrows[3].style.display = "block";
-          arrows[4].style.display = "block";
-          arrows[5].style.display = "block";
-          arrows[6].style.display = "block";
-          arrows[7].style.display = "none";
+          arrowStyle.style(arrows, [
+            NONE,
+            NONE,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            NONE,
+          ]);
           break;
 
         case 25:
-          arrows[0].style.display = "none";
-          arrows[1].style.display = "none";
-          arrows[2].style.display = "block";
-          arrows[3].style.display = "block";
-          arrows[4].style.display = "block";
-          arrows[5].style.display = "none";
-          arrows[6].style.display = "none";
-          arrows[7].style.display = "none";
+          arrowStyle.style(arrows, [
+            NONE,
+            NONE,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            NONE,
+            NONE,
+            NONE,
+          ]);
           break;
 
         case 5:
         case 10:
         case 15:
         case 20:
-          arrows[0].style.display = "block";
-          arrows[1].style.display = "block";
-          arrows[2].style.display = "block";
-          arrows[3].style.display = "block";
-          arrows[4].style.display = "block";
-          arrows[5].style.display = "none";
-          arrows[6].style.display = "none";
-          arrows[7].style.display = "none";
+          arrowStyle.style(arrows, [
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            NONE,
+            NONE,
+            NONE,
+          ]);
           break;
 
         case 9:
         case 14:
         case 19:
         case 24:
-          arrows[0].style.display = "block";
-          arrows[1].style.display = "none";
-          arrows[2].style.display = "none";
-          arrows[3].style.display = "none";
-          arrows[4].style.display = "block";
-          arrows[5].style.display = "block";
-          arrows[6].style.display = "block";
-          arrows[7].style.display = "block";
+          arrowStyle.style(arrows, [
+            BLOCK,
+            NONE,
+            NONE,
+            NONE,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+          ]);
           break;
 
         case 0:
-          arrows[0].style.display = "block";
-          arrows[1].style.display = "block";
-          arrows[2].style.display = "block";
-          arrows[3].style.display = "block";
-          arrows[4].style.display = "block";
-          arrows[5].style.display = "none";
-          arrows[6].style.display = "none";
-          arrows[7].style.display = "none";
+          arrowStyle.style(arrows, [
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            NONE,
+            NONE,
+            NONE,
+          ]);
           break;
 
         case 4:
-          arrows[0].style.display = "block";
-          arrows[1].style.display = "none";
-          arrows[2].style.display = "none";
-          arrows[3].style.display = "none";
-          arrows[4].style.display = "block";
-          arrows[5].style.display = "block";
-          arrows[6].style.display = "block";
-          arrows[7].style.display = "block";
+          arrowStyle.style(arrows, [
+            BLOCK,
+            NONE,
+            NONE,
+            NONE,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+          ]);
           break;
 
         default:
-          arrows[0].style.display = "block";
-          arrows[1].style.display = "block";
-          arrows[2].style.display = "block";
-          arrows[3].style.display = "block";
-          arrows[4].style.display = "block";
-          arrows[5].style.display = "block";
-          arrows[6].style.display = "block";
-          arrows[7].style.display = "block";
+          arrowStyle.style(arrows, [
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+            BLOCK,
+          ]);
           break;
       }
     });
@@ -445,7 +510,6 @@ for (let index = 1; index <= 5; index++) {
     .querySelectorAll(`.block__black--${index}--arrow`)
     .forEach((arrow) => {
       arrow.addEventListener("click", () => {
-        console.log(arrow.className);
         const arrowClass = arrow.className;
 
         const blockClass = `block__black--${index}`;
@@ -469,7 +533,6 @@ for (let index = 1; index <= 5; index++) {
           !~arrowClass.indexOf(FRONT_RIGHT) &&
           !~arrowClass.indexOf(FRONT_LEFT)
         ) {
-          console.log("FRONT");
           const front = control.back(
             levelOne,
             levelTwe,
@@ -484,7 +547,6 @@ for (let index = 1; index <= 5; index++) {
         }
         // FRONT RIGHT
         if (~arrowClass.indexOf(FRONT_RIGHT)) {
-          console.log("FRONT RIGHT");
           const frontRight = control.backRight(
             levelOne,
             levelTwe,
@@ -503,7 +565,6 @@ for (let index = 1; index <= 5; index++) {
           !~arrowClass.indexOf(FRONT_RIGHT) &&
           !~arrowClass.indexOf(BACK_RIGHT)
         ) {
-          console.log("RIGHT");
           const right = control.right(
             levelOne,
             levelTwe,
@@ -518,7 +579,6 @@ for (let index = 1; index <= 5; index++) {
         }
         // BACK RIGHT
         if (~arrowClass.indexOf(BACK_RIGHT)) {
-          console.log("BACK_RIGHT");
           const backRight = control.frontRight(
             levelOne,
             levelTwe,
@@ -537,7 +597,6 @@ for (let index = 1; index <= 5; index++) {
           !~arrowClass.indexOf(BACK_RIGHT) &&
           !~arrowClass.indexOf(BACK_LEFT)
         ) {
-          console.log("BACK");
           const back = control.front(
             levelOne,
             levelTwe,
@@ -552,7 +611,6 @@ for (let index = 1; index <= 5; index++) {
         }
         // BACK LEFT
         if (~arrowClass.indexOf(BACK_LEFT)) {
-          console.log("BACK_LEFT");
           const backLeft = control.frontLeft(
             levelOne,
             levelTwe,
@@ -571,7 +629,6 @@ for (let index = 1; index <= 5; index++) {
           !~arrowClass.indexOf(FRONT_LEFT) &&
           !~arrowClass.indexOf(BACK_LEFT)
         ) {
-          console.log("LEFT");
           const left = control.left(
             levelOne,
             levelTwe,
@@ -586,7 +643,6 @@ for (let index = 1; index <= 5; index++) {
         }
         // FRONT LEFT
         if (~arrowClass.indexOf(FRONT_LEFT)) {
-          console.log("FRONT_LEFT");
           const frontLeft = control.backLeft(
             levelOne,
             levelTwe,
