@@ -1,5 +1,6 @@
 @import "./block/block";
 @import "./sheet/sheet";
+@import "./range/range";
 
 div {
   transform-style: preserve-3d;
@@ -8,10 +9,15 @@ div {
 
 body {
   overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
 }
 
 .main {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100vw;
+  height: 100vh;
 }
