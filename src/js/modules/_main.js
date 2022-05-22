@@ -1,6 +1,7 @@
 import arrowStyle, { BLOCK, NONE } from "./_arrowStyle";
 import control from "./_control";
 import level, { ONE, TWE } from "./_level";
+import { BLACK, playGame, WHITE } from "./_playGame";
 
 const FRONT = "front";
 const FRONT_RIGHT = "front__right";
@@ -11,17 +12,14 @@ const BACK_LEFT = "back__left";
 const LEFT = "left";
 const FRONT_LEFT = "front__left";
 
-const WHITE = "white";
-const BLACK = "black";
-const MOVE_PLAYER = WHITE;
-
 let levelOne = level.one();
 let levelTwe = level.twe();
 let levelThree = level.three();
+let move_player = WHITE;
 
 document.querySelectorAll(".block__white").forEach((e) => {
   e.addEventListener("click", () => {
-    if (MOVE_PLAYER !== WHITE) return;
+    if (move_player !== WHITE) return;
 
     document.querySelectorAll(".arrow").forEach((arrowStyle) => {
       arrowStyle.style.display = "none";
@@ -186,33 +184,37 @@ document.querySelectorAll(".block__white").forEach((e) => {
 });
 
 for (let index = 1; index <= 5; index++) {
-  document
-    .querySelectorAll(`.block__white--${index}--arrow`)
-    .forEach((arrow) => {
-      arrow.addEventListener("click", () => {
-        const arrowClass = arrow.className;
+  const arrows = document.querySelectorAll(`.block__white--${index}--arrow`);
 
-        const blockClass = `block__white--${index}`;
-        const nowLevel = level.nowLevel(
-          levelOne,
-          levelTwe,
-          levelThree,
-          blockClass
-        );
+  arrows.forEach((arrow) => {
+    arrow.addEventListener("click", () => {
+      const arrowClass = arrow.className;
 
-        const blockIndex = level.blockIndex(
-          levelOne,
-          levelTwe,
-          levelThree,
-          blockClass
-        );
+      const blockClass = `block__white--${index}`;
+      const nowLevel = level.nowLevel(
+        levelOne,
+        levelTwe,
+        levelThree,
+        blockClass
+      );
 
-        // FRONT
-        if (
-          ~arrowClass.indexOf(FRONT) &&
-          !~arrowClass.indexOf(FRONT_RIGHT) &&
-          !~arrowClass.indexOf(FRONT_LEFT)
-        ) {
+      const blockIndex = level.blockIndex(
+        levelOne,
+        levelTwe,
+        levelThree,
+        blockClass
+      );
+
+      let nextBlockIndex = 0;
+
+      // FRONT
+      if (
+        ~arrowClass.indexOf(FRONT) &&
+        !~arrowClass.indexOf(FRONT_RIGHT) &&
+        !~arrowClass.indexOf(FRONT_LEFT)
+      ) {
+        nextBlockIndex = blockIndex + 5;
+        if (nextBlockIndex < 30) {
           const front = control.front(
             levelOne,
             levelTwe,
@@ -225,9 +227,12 @@ for (let index = 1; index <= 5; index++) {
           levelTwe = front[1];
           levelThree = front[2];
         }
+      }
 
-        // FRONT RIGHT
-        if (~arrowClass.indexOf(FRONT_RIGHT)) {
+      // FRONT RIGHT
+      if (~arrowClass.indexOf(FRONT_RIGHT)) {
+        nextBlockIndex = blockIndex + 6;
+        if (nextBlockIndex < 30) {
           const frontRight = control.frontRight(
             levelOne,
             levelTwe,
@@ -240,90 +245,93 @@ for (let index = 1; index <= 5; index++) {
           levelTwe = frontRight[1];
           levelThree = frontRight[2];
         }
-        // RIGHT
-        if (
-          ~arrowClass.indexOf(RIGHT) &&
-          !~arrowClass.indexOf(FRONT_RIGHT) &&
-          !~arrowClass.indexOf(BACK_RIGHT)
-        ) {
-          const right = control.right(
-            levelOne,
-            levelTwe,
-            levelThree,
-            blockIndex,
-            nowLevel
-          );
+      }
+      // RIGHT
+      if (
+        ~arrowClass.indexOf(RIGHT) &&
+        !~arrowClass.indexOf(FRONT_RIGHT) &&
+        !~arrowClass.indexOf(BACK_RIGHT)
+      ) {
+        const right = control.right(
+          levelOne,
+          levelTwe,
+          levelThree,
+          blockIndex,
+          nowLevel
+        );
 
-          levelOne = right[0];
-          levelTwe = right[1];
-          levelThree = right[2];
-        }
-        // BACK RIGHT
-        if (~arrowClass.indexOf(BACK_RIGHT)) {
-          const backRight = control.backRight(
-            levelOne,
-            levelTwe,
-            levelThree,
-            blockIndex,
-            nowLevel
-          );
+        levelOne = right[0];
+        levelTwe = right[1];
+        levelThree = right[2];
+      }
+      // BACK RIGHT
+      if (~arrowClass.indexOf(BACK_RIGHT)) {
+        const backRight = control.backRight(
+          levelOne,
+          levelTwe,
+          levelThree,
+          blockIndex,
+          nowLevel
+        );
 
-          levelOne = backRight[0];
-          levelTwe = backRight[1];
-          levelThree = backRight[2];
-        }
-        // BACK
-        if (
-          ~arrowClass.indexOf(BACK) &&
-          !~arrowClass.indexOf(BACK_RIGHT) &&
-          !~arrowClass.indexOf(BACK_LEFT)
-        ) {
-          const back = control.back(
-            levelOne,
-            levelTwe,
-            levelThree,
-            blockIndex,
-            nowLevel
-          );
+        levelOne = backRight[0];
+        levelTwe = backRight[1];
+        levelThree = backRight[2];
+      }
+      // BACK
+      if (
+        ~arrowClass.indexOf(BACK) &&
+        !~arrowClass.indexOf(BACK_RIGHT) &&
+        !~arrowClass.indexOf(BACK_LEFT)
+      ) {
+        const back = control.back(
+          levelOne,
+          levelTwe,
+          levelThree,
+          blockIndex,
+          nowLevel
+        );
 
-          levelOne = back[0];
-          levelTwe = back[1];
-          levelThree = back[2];
-        }
-        // BACK LEFT
-        if (~arrowClass.indexOf(BACK_LEFT)) {
-          const backLeft = control.backLeft(
-            levelOne,
-            levelTwe,
-            levelThree,
-            blockIndex,
-            nowLevel
-          );
+        levelOne = back[0];
+        levelTwe = back[1];
+        levelThree = back[2];
+      }
+      // BACK LEFT
+      if (~arrowClass.indexOf(BACK_LEFT)) {
+        const backLeft = control.backLeft(
+          levelOne,
+          levelTwe,
+          levelThree,
+          blockIndex,
+          nowLevel
+        );
 
-          levelOne = backLeft[0];
-          levelTwe = backLeft[1];
-          levelThree = backLeft[2];
-        }
-        // LEFT
-        if (
-          ~arrowClass.indexOf(LEFT) &&
-          !~arrowClass.indexOf(FRONT_LEFT) &&
-          !~arrowClass.indexOf(BACK_LEFT)
-        ) {
-          const left = control.left(
-            levelOne,
-            levelTwe,
-            levelThree,
-            blockIndex,
-            nowLevel
-          );
+        levelOne = backLeft[0];
+        levelTwe = backLeft[1];
+        levelThree = backLeft[2];
+      }
+      // LEFT
+      if (
+        ~arrowClass.indexOf(LEFT) &&
+        !~arrowClass.indexOf(FRONT_LEFT) &&
+        !~arrowClass.indexOf(BACK_LEFT)
+      ) {
+        const left = control.left(
+          levelOne,
+          levelTwe,
+          levelThree,
+          blockIndex,
+          nowLevel
+        );
 
-          levelOne = left[0];
-          levelTwe = left[1];
-          levelThree = left[2];
-        }
-        // FRONT LEFT
-        if (~arrowClass.indexOf(FRONT_LEFT)) {
+        levelOne = left[0];
+        levelTwe = left[1];
+        levelThree = left[2];
+      }
+      // FRONT LEFT
+      if (~arrowClass.indexOf(FRONT_LEFT)) {
+        nextBlockIndex = blockIndex + 4;
+        if (nextBlockIndex < 30) {
           const frontLeft = control.frontLeft(
             levelOne,
             levelTwe,
@@ -336,13 +344,39 @@ for (let index = 1; index <= 5; index++) {
           levelTwe = frontLeft[1];
           levelThree = frontLeft[2];
         }
-      });
+      }
+
+      const playGameList = playGame(levelOne, levelTwe, levelThree, WHITE);
+      if (!playGameList.isWinner) {
+        move_player = playGameList.player;
+      } else {
+        alert(playGameList.player);
+        move_player = "";
+      }
+
+      console.log(nextBlockIndex);
+      if (nextBlockIndex >= 30) {
+        alert(WHITE);
+        move_player = "";
+      }
+
+      arrowStyle.style(arrows, [
+        NONE,
+        NONE,
+        NONE,
+        NONE,
+        NONE,
+        NONE,
+        NONE,
+        NONE,
+      ]);
     });
+  });
 }
 
 document.querySelectorAll(".block__black").forEach((e) => {
   e.addEventListener("click", () => {
-    if (MOVE_PLAYER !== BLACK) return;
+    if (move_player !== BLACK) return;
     document.querySelectorAll(".arrow").forEach((arrowStyle) => {
       arrowStyle.style.display = "none";
     });
@@ -506,33 +540,37 @@ document.querySelectorAll(".block__black").forEach((e) => {
 });
 
 for (let index = 1; index <= 5; index++) {
-  document
-    .querySelectorAll(`.block__black--${index}--arrow`)
-    .forEach((arrow) => {
-      arrow.addEventListener("click", () => {
-        const arrowClass = arrow.className;
+  const arrows = document.querySelectorAll(`.block__black--${index}--arrow`);
 
-        const blockClass = `block__black--${index}`;
-        const nowLevel = level.nowLevel(
-          levelOne,
-          levelTwe,
-          levelThree,
-          blockClass
-        );
+  arrows.forEach((arrow) => {
+    arrow.addEventListener("click", () => {
+      const arrowClass = arrow.className;
 
-        const blockIndex = level.blockIndex(
-          levelOne,
-          levelTwe,
-          levelThree,
-          blockClass
-        );
+      const blockClass = `block__black--${index}`;
+      const nowLevel = level.nowLevel(
+        levelOne,
+        levelTwe,
+        levelThree,
+        blockClass
+      );
 
-        // FRONT
-        if (
-          ~arrowClass.indexOf(FRONT) &&
-          !~arrowClass.indexOf(FRONT_RIGHT) &&
-          !~arrowClass.indexOf(FRONT_LEFT)
-        ) {
+      const blockIndex = level.blockIndex(
+        levelOne,
+        levelTwe,
+        levelThree,
+        blockClass
+      );
+
+      let nextBlockIndex = 0;
+
+      // FRONT
+      if (
+        ~arrowClass.indexOf(FRONT) &&
+        !~arrowClass.indexOf(FRONT_RIGHT) &&
+        !~arrowClass.indexOf(FRONT_LEFT)
+      ) {
+        nextBlockIndex = blockIndex - 5;
+        if (nextBlockIndex >= 0) {
           const front = control.back(
             levelOne,
             levelTwe,
@@ -545,8 +583,11 @@ for (let index = 1; index <= 5; index++) {
           levelTwe = front[1];
           levelThree = front[2];
         }
-        // FRONT RIGHT
-        if (~arrowClass.indexOf(FRONT_RIGHT)) {
+      }
+      // FRONT RIGHT
+      if (~arrowClass.indexOf(FRONT_RIGHT)) {
+        nextBlockIndex = blockIndex - 4;
+        if (nextBlockIndex >= 0) {
           const frontRight = control.backRight(
             levelOne,
             levelTwe,
@@ -559,90 +600,93 @@ for (let index = 1; index <= 5; index++) {
           levelTwe = frontRight[1];
           levelThree = frontRight[2];
         }
-        // RIGHT
-        if (
-          ~arrowClass.indexOf(RIGHT) &&
-          !~arrowClass.indexOf(FRONT_RIGHT) &&
-          !~arrowClass.indexOf(BACK_RIGHT)
-        ) {
-          const right = control.right(
-            levelOne,
-            levelTwe,
-            levelThree,
-            blockIndex,
-            nowLevel
-          );
+      }
+      // RIGHT
+      if (
+        ~arrowClass.indexOf(RIGHT) &&
+        !~arrowClass.indexOf(FRONT_RIGHT) &&
+        !~arrowClass.indexOf(BACK_RIGHT)
+      ) {
+        const right = control.right(
+          levelOne,
+          levelTwe,
+          levelThree,
+          blockIndex,
+          nowLevel
+        );
 
-          levelOne = right[0];
-          levelTwe = right[1];
-          levelThree = right[2];
-        }
-        // BACK RIGHT
-        if (~arrowClass.indexOf(BACK_RIGHT)) {
-          const backRight = control.frontRight(
-            levelOne,
-            levelTwe,
-            levelThree,
-            blockIndex,
-            nowLevel
-          );
+        levelOne = right[0];
+        levelTwe = right[1];
+        levelThree = right[2];
+      }
+      // BACK RIGHT
+      if (~arrowClass.indexOf(BACK_RIGHT)) {
+        const backRight = control.frontRight(
+          levelOne,
+          levelTwe,
+          levelThree,
+          blockIndex,
+          nowLevel
+        );
 
-          levelOne = backRight[0];
-          levelTwe = backRight[1];
-          levelThree = backRight[2];
-        }
-        // BACK
-        if (
-          ~arrowClass.indexOf(BACK) &&
-          !~arrowClass.indexOf(BACK_RIGHT) &&
-          !~arrowClass.indexOf(BACK_LEFT)
-        ) {
-          const back = control.front(
-            levelOne,
-            levelTwe,
-            levelThree,
-            blockIndex,
-            nowLevel
-          );
+        levelOne = backRight[0];
+        levelTwe = backRight[1];
+        levelThree = backRight[2];
+      }
+      // BACK
+      if (
+        ~arrowClass.indexOf(BACK) &&
+        !~arrowClass.indexOf(BACK_RIGHT) &&
+        !~arrowClass.indexOf(BACK_LEFT)
+      ) {
+        const back = control.front(
+          levelOne,
+          levelTwe,
+          levelThree,
+          blockIndex,
+          nowLevel
+        );
 
-          levelOne = back[0];
-          levelTwe = back[1];
-          levelThree = back[2];
-        }
-        // BACK LEFT
-        if (~arrowClass.indexOf(BACK_LEFT)) {
-          const backLeft = control.frontLeft(
-            levelOne,
-            levelTwe,
-            levelThree,
-            blockIndex,
-            nowLevel
-          );
+        levelOne = back[0];
+        levelTwe = back[1];
+        levelThree = back[2];
+      }
+      // BACK LEFT
+      if (~arrowClass.indexOf(BACK_LEFT)) {
+        const backLeft = control.frontLeft(
+          levelOne,
+          levelTwe,
+          levelThree,
+          blockIndex,
+          nowLevel
+        );
 
-          levelOne = backLeft[0];
-          levelTwe = backLeft[1];
-          levelThree = backLeft[2];
-        }
-        // LEFT
-        if (
-          ~arrowClass.indexOf(LEFT) &&
-          !~arrowClass.indexOf(FRONT_LEFT) &&
-          !~arrowClass.indexOf(BACK_LEFT)
-        ) {
-          const left = control.left(
-            levelOne,
-            levelTwe,
-            levelThree,
-            blockIndex,
-            nowLevel
-          );
+        levelOne = backLeft[0];
+        levelTwe = backLeft[1];
+        levelThree = backLeft[2];
+      }
+      // LEFT
+      if (
+        ~arrowClass.indexOf(LEFT) &&
+        !~arrowClass.indexOf(FRONT_LEFT) &&
+        !~arrowClass.indexOf(BACK_LEFT)
+      ) {
+        const left = control.left(
+          levelOne,
+          levelTwe,
+          levelThree,
+          blockIndex,
+          nowLevel
+        );
 
-          levelOne = left[0];
-          levelTwe = left[1];
-          levelThree = left[2];
-        }
-        // FRONT LEFT
-        if (~arrowClass.indexOf(FRONT_LEFT)) {
+        levelOne = left[0];
+        levelTwe = left[1];
+        levelThree = left[2];
+      }
+      // FRONT LEFT
+      if (~arrowClass.indexOf(FRONT_LEFT)) {
+        nextBlockIndex = blockIndex - 6;
+        if (nextBlockIndex >= 0) {
           const frontLeft = control.backLeft(
             levelOne,
             levelTwe,
@@ -655,6 +699,29 @@ for (let index = 1; index <= 5; index++) {
           levelTwe = frontLeft[1];
           levelThree = frontLeft[2];
         }
-      });
+      }
+
+      const playGameList = playGame(levelOne, levelTwe, levelThree, BLACK);
+      if (!playGameList.isWinner) {
+        move_player = playGameList.player;
+      } else {
+        alert(playGameList.player);
+        move_player = "";
+      }
+
+      if (nextBlockIndex < 0) {
+        alert(BLACK);
+      }
+      arrowStyle.style(arrows, [
+        NONE,
+        NONE,
+        NONE,
+        NONE,
+        NONE,
+        NONE,
+        NONE,
+        NONE,
+      ]);
     });
+  });
 }

@@ -4,6 +4,7 @@
   transform-style: preserve-3d;
   position: absolute;
   transform: translateZ(1px);
+  transition: all 0.3s cubic-bezier(0.21, 0.93, 0.33, 0.91);
 
   // 102px プラス
   &:nth-of-type(1) {
