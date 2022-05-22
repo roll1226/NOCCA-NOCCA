@@ -2,6 +2,7 @@ import arrowStyle, { BLOCK, NONE } from "./_arrowStyle";
 import control from "./_control";
 import level, { ONE, TWE } from "./_level";
 import { BLACK, playGame, WHITE } from "./_playGame";
+import { winnerAnimation } from "./_winner";
 
 const FRONT = "front";
 const FRONT_RIGHT = "front__right";
@@ -25,7 +26,7 @@ document.querySelectorAll(".block__white").forEach((e) => {
       arrowStyle.style.display = "none";
     });
 
-    const arrows = document.querySelectorAll(`.${e.id}--arrow`);
+      const arrows = document.querySelectorAll(`.${e.id}--arrow`);
     arrows.forEach((arrow) => {
       arrow.style.display = "block";
       let levelIndex = ~levelOne.indexOf(e.id) ? levelOne.indexOf(e.id) : 0;
@@ -350,13 +351,13 @@ for (let index = 1; index <= 5; index++) {
       if (!playGameList.isWinner) {
         move_player = playGameList.player;
       } else {
-        alert(playGameList.player);
+        winnerAnimation(playGameList.player);
         move_player = "";
       }
 
       console.log(nextBlockIndex);
       if (nextBlockIndex >= 30) {
-        alert(WHITE);
+        winnerAnimation(WHITE);
         move_player = "";
       }
 
@@ -705,12 +706,12 @@ for (let index = 1; index <= 5; index++) {
       if (!playGameList.isWinner) {
         move_player = playGameList.player;
       } else {
-        alert(playGameList.player);
+        winnerAnimation(playGameList.player);
         move_player = "";
       }
 
       if (nextBlockIndex < 0) {
-        alert(BLACK);
+        winnerAnimation(BLACK);
       }
       arrowStyle.style(arrows, [
         NONE,

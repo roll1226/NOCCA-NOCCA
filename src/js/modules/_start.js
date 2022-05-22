@@ -1,4 +1,3 @@
-console.log("start!!!!!!!!");
 const startButton = document.querySelector(".start");
 startButton.addEventListener("click", () => {
   document.querySelector(".top").classList.add("top--close");
